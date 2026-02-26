@@ -16,16 +16,10 @@ class KalculatorPage extends StatelessWidget {
             children: [
               Expanded(
                 child: Consumer<KalculatorService>(
-                  builder: (_, controller, __) => Container(
+                  builder: (_, controller, _) => Container(
                     alignment: Alignment.bottomRight,
                     padding: const EdgeInsets.all(24),
-                    child: Text(
-                      controller.display,
-                      style: const TextStyle(
-                        fontSize: 48,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
+                    child: Text(controller.display, style: const TextStyle(fontSize: 48, fontWeight: FontWeight.w300)),
                   ),
                 ),
               ),
@@ -39,85 +33,43 @@ class KalculatorPage extends StatelessWidget {
 
   Widget _buildButtons() {
     return Consumer<KalculatorService>(
-      builder: (_, controller, __) => Column(
+      builder: (_, controller, _) => Column(
         children: [
           Row(
             children: [
               KalculatorButton(text: 'AC', onTap: controller.clear),
               KalculatorButton(text: '+/-', onTap: controller.toggleSign),
               KalculatorButton(text: '%', onTap: controller.percent),
-              KalculatorButton(
-                text: '÷',
-                onTap: () => controller.inputOperator('÷'),
-              ),
+              KalculatorButton(text: '÷', onTap: () => controller.inputOperator('÷')),
             ],
           ),
           Row(
             children: [
-              KalculatorButton(
-                text: '7',
-                onTap: () => controller.inputNumber('7'),
-              ),
-              KalculatorButton(
-                text: '8',
-                onTap: () => controller.inputNumber('8'),
-              ),
-              KalculatorButton(
-                text: '9',
-                onTap: () => controller.inputNumber('9'),
-              ),
-              KalculatorButton(
-                text: '×',
-                onTap: () => controller.inputOperator('×'),
-              ),
+              KalculatorButton(text: '7', onTap: () => controller.inputNumber('7')),
+              KalculatorButton(text: '8', onTap: () => controller.inputNumber('8')),
+              KalculatorButton(text: '9', onTap: () => controller.inputNumber('9')),
+              KalculatorButton(text: '×', onTap: () => controller.inputOperator('×')),
             ],
           ),
           Row(
             children: [
-              KalculatorButton(
-                text: '4',
-                onTap: () => controller.inputNumber('4'),
-              ),
-              KalculatorButton(
-                text: '5',
-                onTap: () => controller.inputNumber('5'),
-              ),
-              KalculatorButton(
-                text: '6',
-                onTap: () => controller.inputNumber('6'),
-              ),
-              KalculatorButton(
-                text: '-',
-                onTap: () => controller.inputOperator('-'),
-              ),
+              KalculatorButton(text: '4', onTap: () => controller.inputNumber('4')),
+              KalculatorButton(text: '5', onTap: () => controller.inputNumber('5')),
+              KalculatorButton(text: '6', onTap: () => controller.inputNumber('6')),
+              KalculatorButton(text: '-', onTap: () => controller.inputOperator('-')),
             ],
           ),
           Row(
             children: [
-              KalculatorButton(
-                text: '1',
-                onTap: () => controller.inputNumber('1'),
-              ),
-              KalculatorButton(
-                text: '2',
-                onTap: () => controller.inputNumber('2'),
-              ),
-              KalculatorButton(
-                text: '3',
-                onTap: () => controller.inputNumber('3'),
-              ),
-              KalculatorButton(
-                text: '+',
-                onTap: () => controller.inputOperator('+'),
-              ),
+              KalculatorButton(text: '1', onTap: () => controller.inputNumber('1')),
+              KalculatorButton(text: '2', onTap: () => controller.inputNumber('2')),
+              KalculatorButton(text: '3', onTap: () => controller.inputNumber('3')),
+              KalculatorButton(text: '+', onTap: () => controller.inputOperator('+')),
             ],
           ),
           Row(
             children: [
-              KalculatorButton(
-                text: '0',
-                onTap: () => controller.inputNumber('0'),
-              ),
+              KalculatorButton(text: '0', onTap: () => controller.inputNumber('0')),
               KalculatorButton(text: '.', onTap: controller.inputDecimal),
               KalculatorButton(text: '⌫', onTap: controller.backspace),
               KalculatorButton(text: '=', onTap: controller.equals),
