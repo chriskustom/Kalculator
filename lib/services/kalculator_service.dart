@@ -7,12 +7,13 @@ class KalculatorService extends ChangeNotifier {
   double? _lastOperand; // for repeated equals
   bool _shouldResetInput = false;
   bool _evaluated = false;
+  final List<String> _history = [];
 
+  List<String> get history => _history;
   String get display => _display;
 
   void inputNumber(String number) {
     if (_evaluated) {
-      // Start completely new calculation after equals
       _display = number;
       _previousValue = null;
       _operator = null;
@@ -48,7 +49,7 @@ class KalculatorService extends ChangeNotifier {
     } else {
       _previousValue = double.parse(_display);
     }
-
+    //_display += op;
     _operator = op;
     _shouldResetInput = true;
     notifyListeners();
@@ -73,6 +74,12 @@ class KalculatorService extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearAll() {
+    clear();
+    history.clear();
+    notifyListeners();
+  }
+
   void backspace() {
     if (_shouldResetInput) return;
 
@@ -81,7 +88,6 @@ class KalculatorService extends ChangeNotifier {
     } else {
       _display = '0';
     }
-
     notifyListeners();
   }
 
@@ -109,6 +115,8 @@ class KalculatorService extends ChangeNotifier {
     if (_previousValue == null || _operator == null) return;
 
     double current = _shouldResetInput && _lastOperand != null ? _lastOperand! : double.parse(_display);
+    final hPrev = _previousValue;
+    final hCurr = current;
 
     switch (_operator) {
       case '+':
@@ -132,6 +140,7 @@ class KalculatorService extends ChangeNotifier {
     }
     _evaluated = true;
     _display = _format(_previousValue!);
+    _history.insert(0, '$hPrev $_operator $hCurr = $_display');
     _shouldResetInput = true;
   }
 

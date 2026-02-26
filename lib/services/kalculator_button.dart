@@ -3,14 +3,10 @@ import 'package:flutter/material.dart';
 class KalculatorButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
+  final VoidCallback? onLongPress;
   final Color? color;
 
-  const KalculatorButton({
-    super.key,
-    required this.text,
-    required this.onTap,
-    this.color,
-  });
+  const KalculatorButton({super.key, required this.text, required this.onTap, this.color, this.onLongPress});
 
   @override
   Widget build(BuildContext context) {
@@ -23,22 +19,15 @@ class KalculatorButton extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(12),
             onTap: onTap,
+            onLongPress: onLongPress,
             child: Container(
               decoration: BoxDecoration(
-                color: Theme.of(
-                  context,
-                ).colorScheme.secondaryContainer.withValues(alpha: .3),
+                color: Theme.of(context).colorScheme.secondaryContainer.withValues(alpha: .3),
                 borderRadius: BorderRadius.circular(20),
               ),
               height: 70,
               alignment: Alignment.center,
-              child: Text(
-                text,
-                style: const TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              child: Text(text, style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w500)),
             ),
           ),
         ),

@@ -3,9 +3,15 @@ import 'package:kalculator/services/kalculator_button.dart';
 import 'package:kalculator/services/kalculator_service.dart';
 import 'package:provider/provider.dart';
 
-class KalculatorPage extends StatelessWidget {
+class KalculatorPage extends StatefulWidget {
   const KalculatorPage({super.key});
 
+  @override
+  State<StatefulWidget> createState() => _KalculatorPageState();
+}
+
+class _KalculatorPageState extends State<KalculatorPage> {
+  List<String> history =[ ];
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -19,7 +25,27 @@ class KalculatorPage extends StatelessWidget {
                   builder: (_, controller, _) => Container(
                     alignment: Alignment.bottomRight,
                     padding: const EdgeInsets.all(24),
-                    child: Text(controller.display, style: const TextStyle(fontSize: 48, fontWeight: FontWeight.w300)),
+                    child: Column(
+                      crossAxisAlignment: .end,
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            reverse: true,
+                            itemCount: controller.history.length,
+                            itemBuilder: (context, index) {
+                              return Text(
+                                controller.history[index],
+                                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: .6),
+                                ),
+                                textAlign: .right,
+                              );
+                            },
+                          ),
+                        ),
+                        Text(controller.display, style: const TextStyle(fontSize: 48, fontWeight: FontWeight.w300)),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -37,7 +63,7 @@ class KalculatorPage extends StatelessWidget {
         children: [
           Row(
             children: [
-              KalculatorButton(text: 'AC', onTap: controller.clear),
+              KalculatorButton(text: 'AC', onTap: controller.clear, onLongPress: controller.clearAll),
               KalculatorButton(text: '+/-', onTap: controller.toggleSign),
               KalculatorButton(text: '%', onTap: controller.percent),
               KalculatorButton(text: '÷', onTap: () => controller.inputOperator('÷')),
