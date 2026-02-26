@@ -6,11 +6,20 @@ class KalculatorService extends ChangeNotifier {
   String? _operator;
   double? _lastOperand; // for repeated equals
   bool _shouldResetInput = false;
+  bool _evaluated = false;
 
   String get display => _display;
 
   void inputNumber(String number) {
-    if (_shouldResetInput) {
+    if (_evaluated) {
+      // Start completely new calculation after equals
+      _display = number;
+      _previousValue = null;
+      _operator = null;
+      _lastOperand = null;
+      _evaluated = false;
+      _shouldResetInput = false;
+    } else if (_shouldResetInput) {
       _display = number;
       _shouldResetInput = false;
     } else {
@@ -51,7 +60,6 @@ class KalculatorService extends ChangeNotifier {
     if (!_shouldResetInput) {
       _lastOperand = double.parse(_display);
     }
-
     _evaluate();
     notifyListeners();
   }
@@ -100,9 +108,7 @@ class KalculatorService extends ChangeNotifier {
   void _evaluate() {
     if (_previousValue == null || _operator == null) return;
 
-    double current = _shouldResetInput && _lastOperand != null
-        ? _lastOperand!
-        : double.parse(_display);
+    double current = _shouldResetInput && _lastOperand != null ? _lastOperand! : double.parse(_display);
 
     switch (_operator) {
       case '+':
@@ -124,7 +130,7 @@ class KalculatorService extends ChangeNotifier {
         _previousValue = _previousValue! / current;
         break;
     }
-
+    _evaluated = true;
     _display = _format(_previousValue!);
     _shouldResetInput = true;
   }
